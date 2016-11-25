@@ -1,0 +1,487 @@
+/*
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
+package utfv.org.mx.actions;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.actions.DispatchAction;
+import utfv.org.mx.persistence.Facade;
+import utfv.org.mx.persistence.IFacade;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import utfv.org.mx.beans.Usuarios;
+import utfv.org.mx.forms.BookForm;
+/**
+*
+* @author ITW08L0049-P
+*/
+public class BookAction extends DispatchAction {
+public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+HttpServletResponse response) {
+System.out.println(" Struts Action --> add ");
+BookForm forma = ( BookForm ) form;
+return mapping.findForward("success");
+}
+public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+HttpServletResponse response) {
+System.out.println(" Struts Action --> edit ");
+return mapping.findForward("success");
+}
+public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest
+request, HttpServletResponse response) {
+System.out.println(" Struts Action --> delete ");
+return mapping.findForward("success");
+}
+/* private void upload(BeanForm forma, String upload) {
+FileIO fileIO = new FileIO();
+if (forma.getPhoto() != null && forma.getPhoto().getFileName() != null &&
+forma.getPhoto().getFileName().trim().length() > 0) {
+fileIO.copy(forma.getPhoto(), upload, forma.getPhoto().getFileName());
+}
+}*/
+}
+<%@page contentType="text/html"%>
+<%@page pageEncoding="UTF-8"%>
+<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
+<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme() + "://" + request.getServerName() + ":" +
+request.getServerPort() + path + "/";
+%>
+<link href="<%=basePath%>/js/bootstrap-4.0.0/css/bootstrap-flex.min.css" rel="stylesheet"
+type="text/css"/>
+<link href="<%=basePath%>/js/bootstrap-4.0.0/css/bootstrap-grid.min.css" rel="stylesheet"
+type="text/css"/>
+<link href="<%=basePath%>/js/bootstrap-4.0.0/css/bootstrap-reboot.min.css" rel="stylesheet"
+type="text/css"/>
+<link href="<%=basePath%>/js/bootstrap-4.0.0/css/bootstrap.min.css" rel="stylesheet"
+type="text/css"/>
+<script src="<%=basePath%>/js/funciones.js" type="text/javascript"></script>
+<script type="text/javascript">
+setUrl('<%=basePath%>');
+</script>
+<html:html lang="true">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title><bean:message key="welcome.title"/></title>
+<html:base/>
+</head>
+<br>
+<br>
+<br>
+<center>
+AGREGAR LIBRO
+<body style="background-color: white">
+<html:form action="/BookAction" method="post" focus="user"
+enctype="multipart/form-data"
+onsubmit="return validateBeanForm(this);">
+<table style="width: 30%;" class="table table-condensed">
+<tr>
+<td colspan="2">
+<font color="red">
+<html:errors />
+</font>
+</td>
+</tr>
+<tr>
+<td>
+<bean:message key="title"/> :
+</td>
+<td>
+<html:text styleId="title" property="title" size="30"/>
+</td>
+</tr>
+<tr>
+<td>
+<bean:message key="author"/> :
+</td>
+<td>
+<html:text styleId="author" property="author" size="30"/>
+</td>
+</tr>
+<tr>
+<td>
+<bean:message key="price"/> :
+</td>
+<td>
+<html:text styleId="price" property="price" size="30"/>
+</td>
+</tr>
+<tr>
+<td>
+<bean:message key="pages"/> :
+</td>
+<td>
+<html:text styleId="pages" property="pages" size="30"/>
+</td>
+</tr>
+<tr>
+<td>
+<bean:message key="description"/> :
+</td>
+<td>
+<html:textarea styleId="description" property="description" cols="20" rows="5"/>
+</td>
+</tr>
+<tr>
+<td>
+<bean:message key="publisher"/> :
+</td>
+<td>
+<html:text styleId="publisher" property="publisher" size="30"/>
+</td>
+</tr>
+<tr>
+<td>
+Foto:
+</td>
+<td>
+<html:file styleId="photo" property="photo" />
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<html:submit property="submit" styleClass="btn btn-primary"
+onclick="submitFormSend('BookAction.do','add');bCancel=false;">
+<bean:message key="button.add" />
+</html:submit>
+</td>
+</tr>
+</table>
+<br>
+<br>
+<div class="container">
+<table style="width: 80%;" class="table table-striped">
+<thead>
+<tr>
+<th>
+<bean:message key="title"/> :
+</th>
+<th>
+<bean:message key="author"/> :
+</th>
+<th>
+<bean:message key="price"/> :
+</td>
+<th>
+<bean:message key="pages"/> :
+</th>
+<th>
+<bean:message key="description"/> :
+</th>
+<th>
+<bean:message key="publisher"/> :
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tr>
+<td>
+<bean:message key="title"/> :
+</td>
+<td>
+<bean:message key="author"/> :
+</td>
+<td>
+<bean:message key="price"/> :
+</td>
+<td>
+<bean:message key="pages"/> :
+</td>
+<td>
+<bean:message key="description"/> :
+</td>
+<td>
+<bean:message key="publisher"/> :
+</td>
+<td>
+<html:submit property="submit" styleClass="btn btn-info"
+onclick="submitForm('BookAction.do','edit');bCancel=false;">
+<bean:message key="button.edit" />
+</html:submit>
+<html:submit property="submit" styleClass="btn btn-danger"
+onclick="submitForm('BookAction.do','delete');bCancel=false;">
+<bean:message key="button.delete" />
+</html:submit>
+</td>
+</tr>
+<tr>
+<td>
+<bean:message key="title"/> :
+</td>
+<td>
+<bean:message key="author"/> :
+</td>
+<td>
+<bean:message key="price"/> :
+</td>
+<td>
+<bean:message key="pages"/> :
+</td>
+<td>
+<bean:message key="description"/> :
+</td>
+<td>
+<bean:message key="publisher"/> :
+</td>
+<td>
+<html:submit property="submit" styleClass="btn btn-info"
+onclick="submitForm('BookAction.do','edit');bCancel=false;">
+<bean:message key="button.edit" />
+</html:submit>
+<html:submit property="submit" styleClass="btn btn-danger"
+onclick="submitForm('BookAction.do','delete');bCancel=false;">
+<bean:message key="button.delete" />
+</html:submit>
+</td>
+</tr>
+</table>
+</div>
+</html:form>
+</center>
+</body>
+</html:html>
+FUNCIONES
+var url = "";
+function setUrl(value) {
+url = value;
+}
+function submitForm(action, metodo) {
+eval("document.forms[0].action = '" + url + action + "?method=" + metodo + "';");
+document.forms[0].submit();
+}
+function submitFormSend(action, metodo) {
+eval("document.forms[0].action = '" + url + action + "?method=" + metodo + "';");
+var documento = document.forms[0].publisher.value;
+if( documento!="" ){
+alert('Proceso Correcto');
+}
+document.forms[0].submit();
+}
+LOGIN ACCION
+/*
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
+package utfv.org.mx.actions;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.actions.DispatchAction;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import utfv.org.mx.beans.Usuarios;
+import utfv.org.mx.forms.LoginForm;
+import utfv.org.mx.persistence.Facade;
+import utfv.org.mx.persistence.IFacade;
+/**
+*
+* @author
+*/
+public class LoginAction extends DispatchAction {
+public ActionForward validate(ActionMapping mapping, ActionForm form, HttpServletRequest
+request, HttpServletResponse response) {
+System.out.println(" Struts Action --> validate ");
+try {
+LoginForm loginForm = (LoginForm) form;
+String[] paths = {"file:WebRoot/WEB-INF/applicationContext.xml"};
+ApplicationContext applicationContext = new ClassPathXmlApplicationContext(paths);
+IFacade<Usuarios> facade = (Facade<Usuarios>)
+applicationContext.getBean("GenericDAO");
+List<Usuarios> lista = facade.findAll(" FROM Usuarios c WHERE c.user = '" +
+loginForm.getUser() + "' AND c.password = '" + loginForm.getUser() + "'");
+if(lista != null && lista.size() == 0){
+}
+} catch (Exception e) {
+System.out.println("Exception -->> " + e.getMessage());
+}
+return mapping.findForward("success");
+}
+}
+<%@page contentType="text/html"%>
+<%@page pageEncoding="UTF-8"%>
+<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
+<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme() + "://" + request.getServerName() + ":" +
+request.getServerPort() + path + "/";
+%>
+<link href="<%=basePath%>/js/bootstrap-4.0.0/css/bootstrap-flex.min.css" rel="stylesheet"
+type="text/css"/>
+<link href="<%=basePath%>/js/bootstrap-4.0.0/css/bootstrap-grid.min.css" rel="stylesheet"
+type="text/css"/>
+<link href="<%=basePath%>/js/bootstrap-4.0.0/css/bootstrap-reboot.min.css" rel="stylesheet"
+type="text/css"/>
+<link href="<%=basePath%>/js/bootstrap-4.0.0/css/bootstrap.min.css" rel="stylesheet"
+type="text/css"/>
+<script src="<%=basePath%>/js/funciones.js" type="text/javascript"></script>
+<script type="text/javascript">
+setUrl('<%=basePath%>');
+</script>
+<html:html lang="true">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title><bean:message key="welcome.title"/></title>
+<html:base/>
+</head>
+<body style="background-color: white">
+<br>
+<br>
+<br>
+<center>
+<html:form action="/LoginAction" method="post" focus="user"
+enctype="multipart/form-data"
+onsubmit="return validateLoginForm(this);">
+<table style="width: 30%;">
+<tr>
+<td colspan="2">
+<font color="red">
+<html:errors />
+</font>
+</td>
+</tr>
+<tr>
+<td>
+<bean:message key="user"/> :
+</td>
+<td>
+<html:text styleId="user" property="user" size="30"/>
+</td>
+</tr>
+<tr>
+<td>
+<bean:message key="password"/> :
+</td>
+<td>
+<html:password styleId="password" property="password" size="30"/>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<html:submit property="submit" styleClass="btn btn-primary"
+onclick="submitForm('LoginAction.do','validate');bCancel=false;">
+<bean:message key="button.accept" />
+</html:submit>
+</td>
+</tr>
+</table>
+BOOK FORM
+/*
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
+package utfv.org.mx.forms;
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.upload.FormFile;
+/**
+*
+* @author
+*/
+public class BookForm extends ActionForm {
+private Integer id;
+private String title;
+private String author;
+private double price;
+private int pages;
+private String description;
+private String publisher;
+private FormFile photo = null;
+public Integer getId() {
+return id;
+}
+public void setId(Integer id) {
+this.id = id;
+}
+public String getTitle() {
+return title;
+}
+public void setTitle(String title) {
+this.title = title;
+}
+public String getAuthor() {
+return author;
+}
+public void setAuthor(String author) {
+this.author = author;
+}
+public double getPrice() {
+return price;
+}
+public void setPrice(double price) {
+this.price = price;
+}
+public int getPages() {
+return pages;
+}
+public void setPages(int pages) {
+this.pages = pages;
+}
+public String getDescription() {
+return description;
+}
+public void setDescription(String description) {
+this.description = description;
+}
+public String getPublisher() {
+return publisher;
+}
+public void setPublisher(String publisher) {
+this.publisher = publisher;
+}
+public FormFile getPhoto() {
+return photo;
+}
+public void setPhoto(FormFile photo) {
+this.photo = photo;
+}
+/**
+*
+* @param mapping
+* @param request
+* @return
+*/
+public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
+ActionErrors errors = new ActionErrors();
+if (this.title == null || this.title.trim().length() == 0) {
+errors.add("title", new ActionMessage("errors.required.title"));
+}
+if (this.author == null || this.author.trim().length() == 0) {
+errors.add("author", new ActionMessage("errors.required.author"));
+}
+if (this.price == 0) {
+errors.add("price", new ActionMessage("errors.required.price"));
+}
+if (this.pages == 0) {
+errors.add("pages", new ActionMessage("errors.required.pages"));
+}
+if (this.description == null || this.description.trim().length() == 0) {
+errors.add("description", new ActionMessage("errors.required.description"));
+}
+if (this.publisher == null || this.publisher.trim().length() == 0) {
+errors.add("publisher", new ActionMessage("errors.required.publisher"));
+}
+return errors;
+}
+}
